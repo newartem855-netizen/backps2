@@ -102,5 +102,4 @@ function buildPrompt(history, userMessage) {
     { role: 'user', content: userMessage },
   ];
 }
-
 module.exports = { buildPrompt, SYSTEM_PROMPT };

@@ -1,3 +1,4 @@
+const { SYSTEM_PROMPT } = require('./prompt');
 const WebSocket = require('ws');
 const logger = require('../utils/logger');
 
@@ -20,7 +21,7 @@ function handleRealtimeProxy(clientWs) {
       type: 'session.update',
       session: {
         modalities: ['audio', 'text'],
-        instructions: 'Ты AI-менеджер агентства OptiDigital. Отвечай на украинском языке. Будь кратким, дружелюбным, профессиональным.',
+        instructions: SYSTEM_PROMPT,
         voice: 'alloy',
         input_audio_format: 'pcm16',
         output_audio_format: 'pcm16',
@@ -65,4 +66,4 @@ function handleRealtimeProxy(clientWs) {
   });
 }
 
-module.exports = { handleRealtimeProxy };
+module.exports = { buildPrompt, SYSTEM_PROMPT };

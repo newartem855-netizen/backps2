@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 
 function handleRealtimeProxy(clientWs) {
   const openaiWs = new WebSocket(
-   'wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview',
+    'wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview',
     {
       headers: {
         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -16,7 +16,7 @@ function handleRealtimeProxy(clientWs) {
   openaiWs.on('open', () => {
     logger.info('Connected to OpenAI Realtime');
 
-    // Конфигурация сессии — голос, язык, поведение
+    // Конфігурація сесії — голос, язык, поведення
     openaiWs.send(JSON.stringify({
       type: 'session.update',
       session: {
@@ -36,14 +36,12 @@ function handleRealtimeProxy(clientWs) {
     }));
   });
 
-  // OpenAI → клиент
   openaiWs.on('message', (data) => {
     if (clientWs.readyState === WebSocket.OPEN) {
       clientWs.send(data);
     }
   });
 
-  // Клиент → OpenAI
   clientWs.on('message', (data) => {
     if (openaiWs.readyState === WebSocket.OPEN) {
       openaiWs.send(data);
@@ -66,8 +64,4 @@ function handleRealtimeProxy(clientWs) {
   });
 }
 
-<<<<<<< HEAD
-module.exports = { buildPrompt, SYSTEM_PROMPT };
-=======
-module.exports = { buildPrompt, SYSTEM_PROMPT };
->>>>>>> 2d6df0b (use system prompt in realtime)
+module.exports = { handleRealtimeProxy };

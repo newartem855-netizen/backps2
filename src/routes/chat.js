@@ -3,7 +3,6 @@ const router = express.Router();
 const antispam = require('../middleware/antispam');
 const { getCompletion } = require('../services/openai');
 const { getMemory, saveMemory } = require('../services/memory');
-const { buildPrompt } = require('../services/prompt');
 const logger = require('../utils/logger');
 
 router.post('/', antispam, async (req, res) => {
@@ -15,8 +14,7 @@ router.post('/', antispam, async (req, res) => {
     }
 
     const history = getMemory(sessionId);
-    const prompt = buildPrompt(history, message);
-    const reply = await getCompletion(prompt);
+    const reply = await getCompletion(history, message);
 
     saveMemory(sessionId, message, reply);
 
